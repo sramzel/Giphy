@@ -35,17 +35,16 @@ public class SearchActivity extends AppCompatActivity implements SearchFragment.
     private void initSearchFragment() {
         SearchFragment searchFragment =
                 (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        SearchView searchView = (SearchView) findViewById(R.id.search_view);
 
-        SearchPresenter searchFragmentPresenter = createSearchFragmentPresenter(searchFragment);
-
-        if (searchFragmentPresenter != null) {
-            searchFragmentPresenter.setSearchView(searchView);
-            searchFragment.setPresenter(searchFragmentPresenter);
-        }
         searchFragment.setListener(this);
 
-        searchView.setQuery(DEFAULT_QUERY, false);
+        SearchPresenter searchFragmentPresenter = createSearchFragmentPresenter(searchFragment);
+        if (searchFragmentPresenter != null) {
+            SearchView searchView = (SearchView) findViewById(R.id.search_view);
+            searchFragmentPresenter.setSearchView(searchView);
+            searchFragment.setPresenter(searchFragmentPresenter);
+            searchView.setQuery(DEFAULT_QUERY, false);
+        }
     }
 
     @Nullable

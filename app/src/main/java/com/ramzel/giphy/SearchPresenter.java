@@ -23,7 +23,7 @@ import java.util.List;
 
 class SearchPresenter {
 
-    @NonNull private RecyclerView.Adapter adapter = new SearchAdapter();;
+    @NonNull private RecyclerView.Adapter adapter = new SearchAdapter();
     @NonNull private List<Datum> data = new ArrayList<>();
     @NonNull private Listener listener;
     private int columnWidth;
