@@ -80,11 +80,13 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
     }
 
     public void loadMoreGiphs(int offset) {
-        if (listener != null) {
-            listener.startLoading();
-        }
         if (giphyManager != null) {
             stopPendingSubsciption();
+
+            if (listener != null) {
+                listener.startLoading();
+            }
+
             subscription = giphyManager.search(query, offset)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
