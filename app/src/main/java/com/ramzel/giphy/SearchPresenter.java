@@ -43,8 +43,9 @@ class SearchPresenter {
     }
 
     void clear() {
+        int size = data.size();
         data.clear();
-        adapter.notifyItemRangeRemoved(0, data.size());
+        adapter.notifyItemRangeRemoved(0, size);
     }
 
     void setSearchView(@NonNull SearchView searchView) {
