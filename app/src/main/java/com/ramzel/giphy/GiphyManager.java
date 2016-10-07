@@ -14,7 +14,7 @@ class GiphyManager {
     private static final String API_KEY = "dc6zaTOxFJmzC";
     @Inject GiphyService giphyService;
 
-    GiphyManager(GiphyApplication.ApplicationComponent component) {
+    GiphyManager(@NonNull GiphyApplication.ApplicationComponent component) {
         component.inject(this);
     }
 

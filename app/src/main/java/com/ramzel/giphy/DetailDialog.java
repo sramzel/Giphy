@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,7 +90,7 @@ public class DetailDialog extends DialogFragment {
         }
     }
 
-    private void shareGiph(ImageView imageView) {
+    private void shareGiph(@NonNull ImageView imageView) {
         Uri bmpUri = getLocalBitmapUri(imageView);
         if (bmpUri != null) {
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
@@ -99,7 +100,8 @@ public class DetailDialog extends DialogFragment {
         }
     }
 
-    private Uri getLocalBitmapUri(ImageView imageView) {
+    @Nullable
+    private Uri getLocalBitmapUri(@NonNull ImageView imageView) {
         // Extract Bitmap from ImageView drawable
         Drawable drawable = imageView.getDrawable();
         if (drawable instanceof GifDrawable) {

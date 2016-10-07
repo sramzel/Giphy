@@ -21,12 +21,12 @@ import rx.schedulers.Schedulers;
 
 public class SearchFragment extends Fragment implements SearchPresenter.Listener {
 
-    @Inject GiphyManager giphyManager;
+    @Nullable @Inject GiphyManager giphyManager;
 
-    @Nullable SearchPresenter presenter;
+    @Nullable private SearchPresenter presenter;
     @NonNull private Pagination pagination = new Pagination();
     @NonNull private String query = "";
-    @Nullable Listener listener;
+    @Nullable private Listener listener;
 
     public SearchFragment() {
     }
@@ -44,7 +44,9 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
         super.onAttach(context);
         GiphyApplication.ApplicationComponent component =
                 ((GiphyApplication) getActivity().getApplication()).component();
-        component.inject(this);
+        if (component != null) {
+            component.inject(this);
+        }
     }
 
     public void setListener(@Nullable Listener listener) {
@@ -69,31 +71,33 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
         if (listener != null) {
             listener.startLoading();
         }
-        giphyManager.search(query, offset)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GiphyResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        if (listener != null) {
-                            listener.finishLoading();
+        if (giphyManager != null) {
+            giphyManager.search(query, offset)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<GiphyResponse>() {
+                        @Override
+                        public void onCompleted() {
+                            if (listener != null) {
+                                listener.finishLoading();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                        }
 
-                    @Override
-                    public void onNext(GiphyResponse giphyResponse) {
-                        if (presenter != null && giphyResponse.data != null) {
-                            presenter.addGiphs(giphyResponse.data);
+                        @Override
+                        public void onNext(GiphyResponse giphyResponse) {
+                            if (presenter != null && giphyResponse.data != null) {
+                                presenter.addGiphs(giphyResponse.data);
+                            }
+                            if (giphyResponse.pagination != null) {
+                                pagination = giphyResponse.pagination;
+                            }
                         }
-                        if (giphyResponse.pagination != null) {
-                            pagination = giphyResponse.pagination;
-                        }
-                    }
-                });
+                    });
+        }
     }
 
     @Override

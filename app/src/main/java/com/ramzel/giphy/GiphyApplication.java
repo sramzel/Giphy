@@ -1,6 +1,7 @@
 package com.ramzel.giphy;
 
 import android.app.Application;
+import android.support.annotation.Nullable;
 
 import javax.inject.Singleton;
 
@@ -15,7 +16,7 @@ public class GiphyApplication extends Application {
         void inject(GiphyManager giphyManager);
     }
 
-    private ApplicationComponent component;
+    @Nullable private ApplicationComponent component;
 
     @Override public void onCreate() {
         super.onCreate();
@@ -24,6 +25,7 @@ public class GiphyApplication extends Application {
                 .build();
     }
 
+    @Nullable
     public ApplicationComponent component() {
         return component;
     }

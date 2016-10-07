@@ -1,5 +1,8 @@
 package com.ramzel.giphy;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -13,9 +16,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 class GiphyApiModule {
 
-    private final GiphyApplication application;
+    @NonNull private final GiphyApplication application;
 
-    GiphyApiModule(GiphyApplication application) {
+    GiphyApiModule(@NonNull GiphyApplication application) {
         this.application = application;
     }
 
@@ -41,8 +44,14 @@ class GiphyApiModule {
 
     @Provides
     @Singleton
+    @Nullable
     GiphyManager provideGiphyManager() {
-        return new GiphyManager(application.component());
+        GiphyApplication.ApplicationComponent component = application.component();
+        if (component != null) {
+            return new GiphyManager(component);
+        }
+
+        return null;
     }
 }
 
