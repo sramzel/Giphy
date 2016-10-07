@@ -46,7 +46,7 @@ public class DetailDialog extends DialogFragment {
         if (datum != null) {
             final ImageView imageView = (ImageView) view.findViewById(R.id.image_view);
             final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
-            final ImageView shareButton = (ImageView) view.findViewById(R.id.share);
+            final View shareButton = view.findViewById(R.id.share);
 
             shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
