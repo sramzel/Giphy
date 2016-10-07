@@ -44,7 +44,6 @@ public class SearchActivity extends AppCompatActivity implements SearchFragment.
             searchFragment.setPresenter(searchFragmentPresenter);
         }
         searchFragment.setListener(this);
-        searchFragment.loadMoreGiphs(0);
 
         searchView.setQuery(DEFAULT_QUERY, false);
     }
@@ -70,7 +69,7 @@ public class SearchActivity extends AppCompatActivity implements SearchFragment.
             snackbar.dismiss();
         }
         if (view != null) {
-            snackbar = Snackbar.make(view, "Loading...", Snackbar.LENGTH_INDEFINITE);
+            snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_INDEFINITE);
             snackbar.show();
         }
     }

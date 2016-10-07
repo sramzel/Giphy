@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Giphy</string>
-    <string name="action_settings">Settings</string>
+    <string name="loading">Loading…</string>
 </resources>

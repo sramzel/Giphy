@@ -44,11 +44,5 @@ class GiphyApiModule {
     GiphyManager provideGiphyManager() {
         return new GiphyManager(application.component());
     }
-
-    @Provides
-    @Singleton
-    GiphyApiModule provideGiphyApiModule(){
-        return this;
-    }
 }
 

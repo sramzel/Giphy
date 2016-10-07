@@ -23,7 +23,7 @@ import java.util.List;
 
 class SearchPresenter {
 
-    @NonNull private RecyclerView.Adapter adapter;
+    @NonNull private RecyclerView.Adapter adapter = new SearchAdapter();;
     @NonNull private List<Datum> data = new ArrayList<>();
     @NonNull private Listener listener;
     private int columnWidth;
@@ -31,7 +31,6 @@ class SearchPresenter {
     SearchPresenter(@NonNull View view, @NonNull Listener listener, int columnWidth) {
         this.listener = listener;
         this.columnWidth = columnWidth;
-        adapter = new SearchAdapter();
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
