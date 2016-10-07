@@ -24,8 +24,6 @@ import rx.schedulers.Schedulers;
 
 public class SearchFragment extends Fragment implements SearchPresenter.Listener {
 
-    private static final String DEFAULT_QUERY = "Kittens";
-
     @Inject GiphyManager giphyManager;
 
     @Nullable SearchPresenter presenter;
@@ -47,18 +45,9 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        presenter = initPresenter(view);
-    }
-
-    @NonNull
-    private SearchPresenter initPresenter(View view) {
-        //Measure the screen so the rows can be presized for smooth scrolling
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x/2;
-        return new SearchPresenter(view, this, width);
+        if (listener != null) {
+            listener.onSearchFragmentViewCreated();
+        }
     }
 
     @Override
@@ -81,13 +70,13 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
     }
 
     @Override
-    public void giphSelected(Datum datum) {
+    public void giphSelected(@NonNull Datum datum) {
         if (listener != null) {
             listener.wantDetail(datum);
         }
     }
 
-    private void loadMoreGiphs(int offset) {
+    public void loadMoreGiphs(int offset) {
         if (listener != null) {
             listener.startLoading();
         }
@@ -127,11 +116,8 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
         loadMoreGiphs(0);
     }
 
-    public void setSearchView(SearchView searchView) {
-        if (presenter != null) {
-            presenter.setSearchView(searchView);
-            searchView.setQuery(DEFAULT_QUERY, false);
-        }
+    public void setPresenter(@Nullable SearchPresenter presenter) {
+        this.presenter = presenter;
     }
 
     interface Listener {
@@ -141,5 +127,7 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
         void finishLoading();
 
         void wantDetail(Datum datum);
+
+        void onSearchFragmentViewCreated();
     }
 }
