@@ -43,10 +43,10 @@ public class DetailDialog extends DialogFragment {
 
         View view = inflater.inflate(R.layout.fragment_detail, container);
 
-        if (datum != null) {
-            initView(datum, view);
-        } else {
+        if (datum == null) {
             dismiss();
+        } else {
+            initView(datum, view);
         }
 
         return view;
@@ -79,16 +79,15 @@ public class DetailDialog extends DialogFragment {
             @NonNull View view,
             @NonNull final ImageView imageView,
             @NonNull final ProgressBar progressBar) {
-        GlideDrawableImageViewTarget imageViewTarget =
-                new GlideDrawableImageViewTarget(imageView) {
-                    @Override
-                    public void onResourceReady(
-                            GlideDrawable resource,
-                            GlideAnimation<? super GlideDrawable> animation) {
-                        super.onResourceReady(resource, animation);
-                        progressBar.setVisibility(View.INVISIBLE);
-                    }
-                };
+        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(imageView) {
+            @Override
+            public void onResourceReady(
+                    GlideDrawable resource,
+                    GlideAnimation<? super GlideDrawable> animation) {
+                super.onResourceReady(resource, animation);
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        };
         if (datum.images != null && datum.images.original != null) {
             Glide.with(view.getContext()).load(datum.images.original.url).into(imageViewTarget);
         }

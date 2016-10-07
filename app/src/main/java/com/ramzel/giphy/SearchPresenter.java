@@ -57,7 +57,6 @@ class SearchPresenter {
             @Override
             public boolean onQueryTextChange(String newText) {
                 listener.queryChanged(newText);
-                clear();
                 return false;
             }
         });
