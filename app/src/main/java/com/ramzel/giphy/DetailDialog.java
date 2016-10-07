@@ -44,30 +44,34 @@ public class DetailDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_detail, container);
 
         if (datum != null) {
-            final ImageView imageView = (ImageView) view.findViewById(R.id.image_view);
-            final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
-            final View shareButton = view.findViewById(R.id.share);
-
-            shareButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    shareGiph(imageView);
-                }
-            });
-
-            //Style the dialog
-            Window window = getDialog().getWindow();
-            if (window != null) {
-                window.requestFeature(Window.FEATURE_NO_TITLE);
-                window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            }
-
-            loadGiph(datum, view, imageView, progressBar);
+            initView(datum, view);
         } else {
             dismiss();
         }
 
         return view;
+    }
+
+    private void initView(@NonNull Datum datum, @NonNull View view) {
+        final ImageView imageView = (ImageView) view.findViewById(R.id.image_view);
+        final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
+        final View shareButton = view.findViewById(R.id.share);
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareGiph(imageView);
+            }
+        });
+
+        //Style the dialog
+        Window window = getDialog().getWindow();
+        if (window != null) {
+            window.requestFeature(Window.FEATURE_NO_TITLE);
+            window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
+
+        loadGiph(datum, view, imageView, progressBar);
     }
 
     private void loadGiph(
