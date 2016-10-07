@@ -110,10 +110,11 @@ class SearchPresenter {
 
         private void loadGiph(@NonNull Datum datum, int columnWidth) {
             if (datum.images != null) {
-                Giph giph = datum.images.fixed_width;
+                Giph giph = datum.images.downsized;
                 if (giph != null) {
                     //Use the column width to size the viewholder before the image is loaded
-                    itemView.getLayoutParams().height = giph.height * columnWidth /giph.width;
+                    itemView.getLayoutParams().height =
+                            giph.width == 0 ? 0 : giph.height * columnWidth /giph.width;
                     itemView.requestLayout();
 
                     progressView.setVisibility(View.VISIBLE);
