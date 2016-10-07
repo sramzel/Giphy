@@ -16,6 +16,7 @@ import com.ramzel.giphy.models.Pagination;
 import javax.inject.Inject;
 
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -27,6 +28,7 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
     @NonNull private Pagination pagination = new Pagination();
     @NonNull private String query = "";
     @Nullable private Listener listener;
+    private Subscription subscription;
 
     public SearchFragment() {
     }
@@ -49,8 +51,18 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
         }
     }
 
+    @Override
+    public void onStop() {
+        stopPendingSubsciption();
+        super.onStop();
+    }
+
     public void setListener(@Nullable Listener listener) {
         this.listener = listener;
+    }
+
+    public void setPresenter(@Nullable SearchPresenter presenter) {
+        this.presenter = presenter;
     }
 
     @Override
@@ -72,7 +84,8 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
             listener.startLoading();
         }
         if (giphyManager != null) {
-            giphyManager.search(query, offset)
+            stopPendingSubsciption();
+            subscription = giphyManager.search(query, offset)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<GiphyResponse>() {
@@ -100,6 +113,13 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
         }
     }
 
+    private void stopPendingSubsciption() {
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+            subscription = null;
+        }
+    }
+
     @Override
     public void queryChanged(@NonNull String query) {
         this.query = query;
@@ -107,10 +127,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
             presenter.clear();
         }
         loadMoreGiphs(0);
-    }
-
-    public void setPresenter(@Nullable SearchPresenter presenter) {
-        this.presenter = presenter;
     }
 
     interface Listener {
