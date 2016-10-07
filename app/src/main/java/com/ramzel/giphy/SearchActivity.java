@@ -100,8 +100,4 @@ public class SearchActivity extends AppCompatActivity implements SearchFragment.
         detailDialog.setArguments(arguments);
         detailDialog.show(fm, "fragment_detail");
     }
-
-    @Override
-    public void onSearchFragmentViewCreated() {
-    }
 }

@@ -43,14 +43,6 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (listener != null) {
-            listener.onSearchFragmentViewCreated();
-        }
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         GiphyApplication.ApplicationComponent component =
@@ -127,7 +119,5 @@ public class SearchFragment extends Fragment implements SearchPresenter.Listener
         void finishLoading();
 
         void wantDetail(Datum datum);
-
-        void onSearchFragmentViewCreated();
     }
 }
