@@ -65,12 +65,13 @@ public class SearchActivity extends AppCompatActivity implements SearchFragment.
 
     @Override
     public void startLoading() {
-        if (snackbar != null && snackbar.isShown()) {
-            snackbar.dismiss();
-        }
         if (view != null) {
-            snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_INDEFINITE);
-            snackbar.show();
+            if (snackbar == null) {
+                snackbar = Snackbar.make(view, R.string.loading, Snackbar.LENGTH_INDEFINITE);
+            }
+            if (!snackbar.isShown() && view != null) {
+                snackbar.show();
+            }
         }
     }
 
